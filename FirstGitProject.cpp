@@ -1,219 +1,84 @@
-#include <iostream> 
-#define SIZE 100 
+#include <iostream>
+#define SIZE 100
 
 using namespace std;
-//типо первый класс 
-class Overcoat
+
+class String 
 {
 private:
-	char type[SIZE];
-	int price;
+    char* str;
+    int size;
+
 public:
-	Overcoat() : type{ "\0" }, price{ 0 } {};
-	void gettyp()
-	{
-		cin.ignore();
-		gets_s(type, SIZE);
-	}
-	char* settyp()
-	{
-		return type;
-	}
-	void getpri()
-	{
-		cin >> price;
-	}
-	int setpri()
-	{
-		return price;
-	}
+    static int count;
 
-	bool operator==(Overcoat& f)
-	{
-		if ((strcmp(type, f.type) == 0) && price == f.price)
-		{
-			return 1234567;
-		}
-		return 0;
-	}
+    String() : str{ new char[80] }, size{ 80 }
+    {
+        count++;
+    }
 
-	void operator=(Overcoat& f)
-	{
-		strcpy_s(type, SIZE, f.type);
-		price = f.price;
-	}
+    String(int size2) :str{ new char[size2] }, size{ size2 } 
+    {
+        count++;
+    }
 
-	bool operator>(Overcoat& f)
-	{
-		if ((strcmp(type, f.type) > 0) && price > f.price)
-		{
-			return 1234567;
-		}
-		return 0;
-	}
+    String(const char* str2) 
+    {
+        size = strlen(str2) + 1;
+        str = new char[size];
+        strcpy_s(str, size, str2);
+        count++;
+    }
 
-	void typeovercoat(Overcoat f, Overcoat s)
-	{
-		if (f == s)
-		{
-			cout << "first type == second type";
-		}
-		else
-		{
-			cout << "first type != second type";
-		}
-	}
+    String(const String& a) 
+    {
+        strcpy_s(str, size, a.str);
+        count++;
+    }
 
-	void copy(Overcoat f, Overcoat s)
-	{
-		int number;
-		cout << "\nIf you want copy first in second write 0 else not 0";
-		cin >> number;
-		if (number == 0)
-		{
-			s = f;
-		}
-		else
-		{
-			f = s;
-		}
-	}
-	void bigger(Overcoat f, Overcoat s)
-	{
-		if (f > s)
-		{
-			cout << "First > second";
-		}
-		else if (f == s)
-		{
-			cout << "First == Second";
-		}
-		else
-		{
-			cout << "Second > First";
-		}
-	}
+    void setstr()
+    {
+        gets_s(str, SIZE);
+    }
 
-};
-class Flat
-	//типо второй класс 
-{
-private:
-	int area;
-	int price;
-public:
-	Flat() : area{ 0 }, price{ 0 } {};
-	void getarea()
-	{
-		cin >> area;
-	}
-	int setarea()
-	{
-		return area;
-	}
-	void getpri()
-	{
-		cin >> price;
-	}
-	int setpri()
-	{
-		return price;
-	}
+    void getstr() const
+    {
+        cout << "\n" << str;
+    }
 
-	bool operator==(Flat& f)
-	{
-		if (area == f.area && price == f.price)
-		{
-			return 1234567;
-		}
-		return 0;
-	}
+    static int getCount() 
+    {
+        return count;
+    }
 
-	void operator=(Flat& f)
-	{
-		area = f.area;
-		price = f.price;
-	}
-
-	bool operator>(Flat& f)
-	{
-		if (price > f.price)
-		{
-			return 1234567;
-		}
-		return 0;
-	}
-
-	void areaflats(Flat f, Flat s)
-	{
-		if (f == s)
-		{
-			cout << "first area == second area";
-		}
-		else
-		{
-			cout << "first area != second area";
-		}
-	}
-
-	void copy(Flat f, Flat s)
-	{
-		int number;
-		cout << "\nIf you want copy first in second write 0 else not 0";
-		cin >> number;
-		if (number == 0)
-		{
-			s = f;
-		}
-		else
-		{
-			f = s;
-		}
-	}
-	void bigger(Flat f, Flat s)
-	{
-		if (f > s)
-		{
-			cout << "First > second";
-		}
-		else if (f == s)
-		{
-			cout << "First == Second";
-		}
-		else
-		{
-			cout << "Second > First";
-		}
-	}
-
+    ~String() 
+    {
+        delete[] str;
+        count--;
+    }
 };
 
-//типо мейн типо главная функция 
-int main()
+int main() 
 {
-	Overcoat first, second;
-	Flat one, two;
+    setlocale(LC_ALL, "RUS");
 
-	first.getpri();
-	first.gettyp();
-	second.getpri();
-	second.gettyp();
-	first.typeovercoat(first, second);
-	first.copy(first, second);
+    int size = 50;
 
-	if (strcmp(first.settyp(), second.settyp()) == 0)
-	{
-		first.bigger(first, second);
-	}
+    String str;
+    String str2(size);
+    String str3("hihihiha");
 
-	one.getpri();
-	one.getarea();
-	two.getpri();
-	two.getarea();
-	one.areaflats(one, two);
-	one.copy(one, two);
-	one.bigger(one, two);
+    cout << "Введите строки: ";
+    str.setstr();
+    str2.setstr();
 
-	return 0;
+    cout << "Кол-во строк созданных: \n" << str.getCount();
+
+    cout << "stroki: ";
+    str.getstr();
+    str2.getstr();
+    str3.getstr();
+
+    return 0;
 }
-//типо все
+
